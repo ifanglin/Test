@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+	<title>Ajax與PHP</title>
+    <style>
+	  legend,label,span {
+	    font-size:24px;
+		color:#00f;
+	  }
+	  
+	  fieldset {
+	    border-width:3px;
+		border-color:#ff00ff;
+		width:8cm;
+	  }
+	  
+	  label,span {
+	    font-size:24px;
+		color:#f00;
+	  }
+	</style>
+    <script>  
+      var xmlHTTP;  
+      var v1,v2,op;
+      function sendInfo()  
+      {  
+        v1=document.myform.number1.value;
+		v2=document.getElementById("number2").value;
+		op=document.myform.operator.value; 
+		
+        var url="Lab_Ajax.php?op="+op+"&"+"num1="+v1+"&"+"num2="+v2;
+        
+        if(window.XMLHttpRequest)
+		{  
+        	xmlHTTP=new XMLHttpRequest();  
+        }  
+        else if(window.ActiveXObject)
+		{  
+        	xmlHTTP=new ActiveXObject("Microsoft.XMLHTTP");  
+        }  
+  
+        try  
+        { 
+        	xmlHTTP.onreadystatechange=getInfo;
+        	xmlHTTP.open("GET",url,true);  
+        	xmlHTTP.send();  
+        }  
+        catch(e)  
+        {  
+            alert("無法connect到server端");  
+        }  
+      } 
+      
+      function getInfo()
+	  {  
+        if(xmlHTTP.readyState == 4)
+        {
+          if(xmlHTTP.status == 200)
+          {
+            var str=xmlHTTP.responseText;
+            document.getElementById('result').innerHTML=str;  
+          }  
+        }  
+      }
+ 
+    </script>	
+  </head>
+
+  <body> 
+	<fieldset>
+	  <legend>四則運算</legend>
+	  <form name="myform">
+		數值1：<input type="text" name="number1" size="5"><p>
+		數值2：<input type="text" name="number2" id="number2" size="5"><p>
+		運算符號：
+	    <select name="operator" size=1>
+		  <option value="" selected="selected">請選擇</option>
+		  <option value="1">加</option>
+		  <option value="2">減</option>
+		  <option value="3">乘</option>
+		  <option value="4">除</option>
+		</select>
+	    <input type="button" value="計算" onClick="sendInfo()">
+	    <input type="reset" value="重填">
+		<p>				
+	  </form>
+	  <label>結果：</label><span id="result">0.0</span>
+	</fieldset>
+	
+  </body>
+</html>
+
